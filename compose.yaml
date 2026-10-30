@@ -1,0 +1,6 @@
+services:
+  rosen-chat-ai:
+    build: .
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
