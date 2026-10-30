@@ -1,6 +1,6 @@
-# Rosen Chat AI
+# Chat AI
 
-Rosen Chat AI is a conversational marketplace demo that connects businesses with service providers through task matching, proof review, PayPal sandbox checkout, and interactive business dashboards.
+Chat AI is a conversational marketplace demo that connects businesses with service providers through task matching, proof review, PayPal sandbox checkout, and interactive business dashboards.
 
 **Public repository:** [github.com/naij/chat-ai-paypal](https://github.com/naij/chat-ai-paypal)
 **Source-code license:** [MIT](LICENSE), an [OSI-approved license](https://opensource.org/license/mit).
@@ -21,7 +21,7 @@ This is a prototype: the assistant is scripted, most marketplace operations are 
 - Node.js **20.19+**; Node.js **22** recommended.
 - npm, included with Node.js.
 - Optional: Docker with Docker Compose for container deployment.
-- Internet access for dependency installation, remote profile images, and the external Rosen sandbox backend.
+- Internet access for dependency installation, remote profile images, and the external sandbox backend.
 
 ```sh
 git clone https://github.com/naij/chat-ai-paypal.git
@@ -39,7 +39,7 @@ Set these optional, **build-time** Vite variables in `.env.local`:
 
 | Variable | Default / purpose |
 | --- | --- |
-| `VITE_API_BASE_URL` | Defaults to `https://beta.gorosen.xyz`; base URL for Rosen authentication and PayPal backend endpoints. |
+| `VITE_API_BASE_URL` | Defaults to `https://beta.gorosen.xyz`; base URL for authentication and PayPal backend endpoints. |
 | `VITE_AG_STUDIO_LICENSE_KEY` | Optional local evaluation key, passed to `AgStudioProvider`. Supply your own valid AG Studio license. |
 
 Restart Vite after changing variables. Vite variables are included in browser code: do not place PayPal client secrets, AI provider secrets, or private server credentials here. `.env.local` is ignored by Git; no trial key is included in the example file.
@@ -77,7 +77,7 @@ docker compose down
 
 ### Implemented: Boss sandbox checkout
 
-The frontend integrates with PayPal **through the Rosen backend**, using Axios. It does not call PayPal's privileged APIs directly and does not embed a PayPal client secret or the PayPal JavaScript SDK.
+The frontend integrates with PayPal **through the backend**, using Axios. It does not call PayPal's privileged APIs directly and does not embed a PayPal client secret or the PayPal JavaScript SDK.
 
 1. The Boss selects a promoter and confirms the quoted amount.
 2. The frontend calls `POST /api/paypal/order/create` with `{ "amount": 350 }` (amount varies by candidate).
@@ -103,7 +103,7 @@ The frontend create-order request sends only `amount`; callback URLs are not add
 ### Simulated payment-related features
 
 - Helper PayPal receipt uses a **local confirmation dialog**. There is no PayPal Payouts integration or actual disbursement. **View in PayPal** opens the [sandbox homepage](https://www.sandbox.paypal.com/).
-- PYUSD payments and Rosen wallet balances are **mock state**, with no token transfer, blockchain transaction, or wallet integration.
+- PYUSD payments and wallet balances are **mock state**, with no token transfer, blockchain transaction, or wallet integration.
 - Boss rejection displays a refund message but does not call a refund API.
 - Approval/release, credit-score increases, and Mastercard eligibility are simulated.
 - The “smart invoice” is an SVG generated locally by `invoiceImage`; it is not an API-generated or tax invoice.
@@ -122,7 +122,7 @@ Integration code: `src/api/paypal.js`, `src/api/request.js`, `src/pages/PayPalCa
 - Summarize submitted text and images to assist the Boss with proof review; the Boss retains final approval.
 - Explain Dashboard metrics using supplied transaction aggregates.
 
-The proposed architecture is **React frontend → Rosen backend → OpenAI Responses API (`gpt-5.4-mini`)**. The backend would keep the API key, supply task and candidate data, and validate structured model responses for the existing chat cards. Payment amounts, payment verification, refunds, and fund release would remain controlled by backend rules and explicit user actions.
+The proposed architecture is **React frontend → backend → OpenAI Responses API (`gpt-5.4-mini`)**. The backend would keep the API key, supply task and candidate data, and validate structured model responses for the existing chat cards. Payment amounts, payment verification, refunds, and fund release would remain controlled by backend rules and explicit user actions.
 
 This integration has not been built or evaluated and should not be counted as a completed AI or sponsor integration in a submission.
 
@@ -148,11 +148,11 @@ OpenAI Codex assisted with implementation, iteration, and testing. The sample Ar
 | React 19 + React DOM | Profile, chat, dialogs, callback pages, and application state. |
 | Vite 7 | Development server, production bundling, and lazy loading of the Dashboard. |
 | JavaScript / JSX / CSS / HTML5 | Application logic, mobile layouts, animation, native dialogs, and file selection. |
-| PayPal Sandbox | Boss checkout through the Rosen backend; callback verification. Helper payouts are simulated. |
+| PayPal Sandbox | Boss checkout through the backend; callback verification. Helper payouts are simulated. |
 | AG Studio 3 (`ag-studio-react`, `ag-studio`) | Embedded analytics with charts, KPI widgets, grids, filters, and a report editor. Uses a separate commercial/evaluation license. |
 | Axios | HTTP client, response handling, and the `X-Token` authentication interceptor. |
 | `md5` | Password hashing required by the existing demo login API contract. |
-| Rosen beta backend | Authentication, sandbox order creation, and order-status checks; separately hosted, not part of this repo. |
+| beta backend | Authentication, sandbox order creation, and order-status checks; separately hosted, not part of this repo. |
 | Docker + Nginx | Container build and static hosting, including callback routes and health checks. |
 | Playwright + Node.js test runner | Browser workflow checks and unit tests. |
 | OpenAI Codex / image generation | Development assistance and a generated demo profile image; no runtime model integration. |
