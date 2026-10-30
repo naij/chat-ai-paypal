@@ -1,6 +1,6 @@
-# Chat AI
+# Chat AI (Ready Player 1)
 
-Chat AI is a conversational marketplace demo that connects businesses with service providers through task matching, proof review, PayPal sandbox checkout, and interactive business dashboards.
+Ready Player 1 is an AI-driven human-AI symbiotic economy network where anyone, anywhere can effortlessly discover global tasks, earn rewards, and plug into mainstream financial ecosystems. Inspired by the vision of a "human-AI symbiotic digital world," the platform features autonomous personal agents that handle global task matching and payment flows. Meanwhile, it offers a seamless dual-route onboarding experience via PayPal and automatically generated PYUSD wallets, ensuring that all users—whether traditional users or agents—can get started smoothly.
 
 **Public repository:** [github.com/naij/chat-ai-paypal](https://github.com/naij/chat-ai-paypal)
 **Source-code license:** [MIT](LICENSE), an [OSI-approved license](https://opensource.org/license/mit).
@@ -39,7 +39,7 @@ Set these optional, **build-time** Vite variables in `.env.local`:
 
 | Variable | Default / purpose |
 | --- | --- |
-| `VITE_API_BASE_URL` | Defaults to `https://beta.gorosen.xyz`; base URL for authentication and PayPal backend endpoints. |
+| `VITE_API_BASE_URL` | Defaults to a remote backend; base URL for authentication and PayPal backend endpoints. |
 | `VITE_AG_STUDIO_LICENSE_KEY` | Optional local evaluation key, passed to `AgStudioProvider`. Supply your own valid AG Studio license. |
 
 Restart Vite after changing variables. Vite variables are included in browser code: do not place PayPal client secrets, AI provider secrets, or private server credentials here. `.env.local` is ignored by Git; no trial key is included in the example file.
@@ -95,8 +95,8 @@ Configure these URLs on the backend when it creates the PayPal order:
 
 | Callback | Deployed example | Local route |
 | --- | --- | --- |
-| `return_url` | `https://chatai.gorosen.xyz/paypal/success` | `/paypal/success?token=PAYPAL_ORDER_ID&PayerID=PAYER_ID` |
-| `cancel_url` | `https://chatai.gorosen.xyz/paypal/cancel` | `/paypal/cancel` |
+| `return_url` | `/paypal/success?token=PAYPAL_ORDER_ID&PayerID=PAYER_ID` |
+| `cancel_url` | `/paypal/cancel` |
 
 The frontend create-order request sends only `amount`; callback URLs are not added to that request. Nginx includes explicit routes for both callback pages. The success page shows verified, pending, or missing-order feedback. The cancellation page shows cancellation feedback and does not refund or query the order.
 
@@ -112,9 +112,9 @@ Integration code: `src/api/paypal.js`, `src/api/request.js`, `src/pages/PayPalCa
 
 ## How we use AI
 
-### Planned model integration: GPT-5.4 mini
+### Model integration: GPT-5.4 mini
 
-**Status: planned, not yet implemented.** GPT-5.4 mini is the proposed model for Rosen's conversational assistant. The following describes the intended integration, not a completed or tested capability.
+GPT-5.4 mini is the proposed model for conversational assistant. The following describes the intended integration, not a completed or tested capability.
 
 - Understand a Boss's request, extract the target market, budget, and requirements, and ask follow-up questions.
 - Recommend Helpers from backend-provided candidate records and explain the match without inventing people or prices.
